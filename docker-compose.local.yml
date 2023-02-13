@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres
+    container_name: 'vertx-postgres'
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_DB=vertx
+      - POSTGRES_USER=fetocan
+      - POSTGRES_PASSWORD=letmein
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U fetocan" ]
+      interval: 2s
+      timeout: 3s
+      retries: 15
+    volumes:
+      - ./_db:/var/lib/postgresql/data
+    networks:
+      - vertx
+
+
+  prometheus:
+    image: prom/prometheus:v2.30.3
+#    network_mode: host
+    container_name: prometheus
+    restart: unless-stopped
+    ports:
+      - '9090:9090'
+    volumes:
+      - ./src/main/resources/prometheus:/etc/prometheus/
+      - ./_prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    labels:
+      org.label-schema.group: "monitoring"
+    networks:
+      - vertx
+
+  grafana:
+    image: grafana/grafana-oss:8.5.2
+    pull_policy: always
+#    network_mode: host
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    links:
+      - prometheus:prometheus
+    volumes:
+      - ./_grafana-data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SERVER_DOMAIN=localhost
+    networks:
+      - vertx
+
+networks:
+  vertx:

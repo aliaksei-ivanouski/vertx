@@ -1,0 +1,6 @@
+groups:
+  - name: Vert.x App Alerts
+    rules:
+      - alert: InstanceDown
+        expr: up{job="Vert.x App"} < 1
+        for: 1m

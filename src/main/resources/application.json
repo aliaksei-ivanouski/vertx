@@ -1,0 +1,13 @@
+{
+  "server": {
+    "http.port": 8082
+  },
+  "db": {
+    "url": "jdbc:postgresql://localhost:5432/vertx",
+    "host": "localhost",
+    "port": 5432,
+    "database": "vertx",
+    "username": "fetocan",
+    "password": "letmein"
+  }
+}

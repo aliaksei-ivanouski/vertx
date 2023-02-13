@@ -1,0 +1,65 @@
+= Vertex
+
+image:https://img.shields.io/badge/vert.x-4.3.7-purple.svg[link="https://vertx.io"]
+
+This application was generated using http://start.vertx.io
+
+== Building
+
+To launch your tests:
+```
+./mvnw clean test
+```
+
+To package your application:
+```
+./mvnw clean package
+```
+
+== Run application
+- start postgres
+```shell
+docker-compose -f docker-compose.local.yml up -d postgres
+```
+- start prometheus
+```shell
+docker-compose -f docker-compose.local.yml up -d prometheus
+```
+- start grafana
+```shell
+docker-compose -f docker-compose.local.yml up -d grafana
+```
+- start application with maven
+```shell
+./mvnw exec:java
+```
+- start application with jar
+```shell
+./mvnw clean package
+```
+```shell
+java -cp target/vertx-1.0.0-SNAPSHOT-fat.jar com.fetocan.vertx.AppLauncher run com.fetocan.vertx.MainVerticle -conf src/main/resources/application.json -Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.Log4jLogDelegateFactory
+```
+
+== Prometheus dashboard
+* Available here http://localhost:9090
+
+== Grafana dashboard
+* Available here http://localhost:3000
+* login: admin
+* password: admin
+
+== Run message generator
+- go into message-generator folder
+```shell
+cd message-generator
+```
+- install requirements
+```shell
+pip3 install -r requirements.txt
+```
+- run generator
+```shell
+python3 generator.py
+```
+
