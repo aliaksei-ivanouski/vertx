@@ -1,6 +1,6 @@
 package com.fetocan.vertx
 
-import com.fetocan.vertx.metrics.configureMeters
+import com.fetocan.vertx.metrics.configureMetricsOptions
 import com.fetocan.vertx.util.LoggerDelegate
 import io.vertx.core.DeploymentOptions
 import io.vertx.core.Vertx
@@ -8,15 +8,11 @@ import io.vertx.core.VertxOptions
 import io.vertx.core.impl.launcher.VertxCommandLauncher
 import io.vertx.core.impl.launcher.VertxLifecycleHooks
 import io.vertx.core.json.JsonObject
-import io.vertx.micrometer.Label
-import io.vertx.micrometer.MicrometerMetricsOptions
-import io.vertx.micrometer.VertxPrometheusOptions
-import java.util.EnumSet
 
 class AppLauncher : VertxCommandLauncher(), VertxLifecycleHooks {
 
   companion object {
-    val logger by LoggerDelegate()
+    private val logger by LoggerDelegate()
 
     @JvmStatic
     fun main(args: Array<String>) {
@@ -25,18 +21,11 @@ class AppLauncher : VertxCommandLauncher(), VertxLifecycleHooks {
     }
   }
 
-  override fun beforeStartingVertx(options: VertxOptions) {
-    options.metricsOptions = MicrometerMetricsOptions()
-      .setMicrometerRegistry(configureMeters())
-      .setPrometheusOptions(VertxPrometheusOptions().setEnabled(true))
-      .setLabels(
-        EnumSet.of(
-          Label.HTTP_PATH,
-          Label.HTTP_METHOD,
-          Label.HTTP_CODE
-        )
-      )
-      .setEnabled(true)
+  override fun beforeStartingVertx(
+    options: VertxOptions
+  ) {
+    logger.info("Configuring metrics options...")
+    configureMetricsOptions(options)
   }
 
   override fun handleDeployFailed(
@@ -45,6 +34,7 @@ class AppLauncher : VertxCommandLauncher(), VertxLifecycleHooks {
     deploymentOptions: DeploymentOptions?,
     cause: Throwable?
   ) {
+    logger.info("Deploy vertx failed...")
     vertx?.close()
   }
 
