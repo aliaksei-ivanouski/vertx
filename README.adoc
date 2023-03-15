@@ -47,7 +47,7 @@ java -cp target/vertx-1.0.0-SNAPSHOT-fat.jar com.fetocan.vertx.AppLauncher run c
 == Grafana dashboard
 * Available here http://localhost:3000
 * login: admin
-* password: admin
+* password: 123456
 
 == Run message generator
 - go into message-generator folder
