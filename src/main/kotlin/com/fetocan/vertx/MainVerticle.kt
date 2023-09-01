@@ -21,7 +21,7 @@ class MainVerticle : CoroutineVerticle() {
     jacksonConfig()
 
     val router = Router.router(vertx)
-    router.configure(jooqx(vertx, config))
+      .configure(jooqx(vertx, config))
 
     // Create the HTTP server
     vertx.createHttpServer()
