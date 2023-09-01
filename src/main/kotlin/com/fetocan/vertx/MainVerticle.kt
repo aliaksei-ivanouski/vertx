@@ -1,6 +1,7 @@
 package com.fetocan.vertx
 
 import com.fetocan.vertx.global.configure
+import com.fetocan.vertx.global.cronConfigure
 import com.fetocan.vertx.global.flyway
 import com.fetocan.vertx.global.jacksonConfig
 import com.fetocan.vertx.global.jooqx
@@ -28,6 +29,7 @@ class MainVerticle : CoroutineVerticle() {
       .listen(config.getJsonObject("server").getInteger("http.port"))
       .onSuccess {
         flyway(config).migrate()
+//        cronConfigure(vertx)
         println("HTTP server started on port ${it.actualPort()}")
       }
       .onFailure {
