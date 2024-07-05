@@ -10,7 +10,7 @@ config = {'host': 'localhost',
 class Sender:
     def __init__(self, config):
         self.config = config
-        self.headers = {"Content-Type":"application/json"}
+        self.headers = {"Content-Type": "application/json"}
 
     @staticmethod
     def __serialize_if_needed(message):

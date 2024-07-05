@@ -49,6 +49,14 @@ java -cp target/vertx-1.0.0-SNAPSHOT-fat.jar com.fetocan.vertx.AppLauncher run c
 * login: admin
 * password: 123456
 
+== Install python virtual environment
+```shell
+cd message-generator
+python3 -m pip install --user virtualenv
+python3 -m venv venv
+source venv/bin/activate
+```
+
 == Run message generator
 - go into message-generator folder
 ```shell
@@ -63,3 +71,14 @@ pip3 install -r requirements.txt
 python3 generator.py
 ```
 
+====== If any issues as "ImportError: cannot import name 'Mapping' from 'collections'" try to update libraries
+```shell
+pip3 install --upgrade requests
+pip3 install --upgrade pika
+python3 generator.py
+```
+
+== Deactivate python virtual environment
+```shell
+deactivate
+```
