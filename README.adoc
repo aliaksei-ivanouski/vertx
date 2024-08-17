@@ -1,4 +1,4 @@
-= Vertex
+= Vertx
 
 image:https://img.shields.io/badge/vert.x-4.3.7-purple.svg[link="https://vertx.io"]
 
